@@ -69,3 +69,111 @@ const btn = document.getElementById('calcBtn');
     result.classList.add('show');
     result.scrollIntoView({behavior:'smooth', block:'nearest'});
   });
+
+  /* ============================================================
+     AI Chat Widget
+     ------------------------------------------------------------
+     This is a FRONTEND-ONLY demo. There is no real AI connected
+     yet — sendMessageToAI() below just echoes a canned reply.
+
+     When you have a backend ready, replace the inside of
+     sendMessageToAI() with a fetch() call to YOUR OWN server
+     endpoint (never call the Anthropic/OpenAI API directly from
+     this file — that would expose your secret API key to anyone
+     who views the page source). Example:
+
+     async function sendMessageToAI(userText) {
+       const res = await fetch('/api/chat', {
+         method: 'POST',
+         headers: { 'Content-Type': 'application/json' },
+         body: JSON.stringify({ message: userText })
+       });
+       const data = await res.json();
+       return data.reply;
+     }
+     ============================================================ */
+
+  const chatToggle   = document.getElementById('chatToggle');
+  const chatPanel     = document.getElementById('chatPanel');
+  const chatClose     = document.getElementById('chatClose');
+  const chatForm      = document.getElementById('chatForm');
+  const chatInput     = document.getElementById('chatInput');
+  const chatMessages  = document.getElementById('chatMessages');
+  const chatTyping    = document.getElementById('chatTyping');
+
+  function openChat(){
+    chatPanel.classList.add('open');
+    chatToggle.classList.add('open');
+    chatPanel.setAttribute('aria-hidden', 'false');
+    chatInput.focus();
+  }
+
+  function closeChat(){
+    chatPanel.classList.remove('open');
+    chatToggle.classList.remove('open');
+    chatPanel.setAttribute('aria-hidden', 'true');
+  }
+
+  chatToggle.addEventListener('click', () => {
+    chatPanel.classList.contains('open') ? closeChat() : openChat();
+  });
+  chatClose.addEventListener('click', closeChat);
+
+  function addMessage(text, sender){
+    const row = document.createElement('div');
+    row.className = 'chat-msg ' + sender;
+    const bubble = document.createElement('div');
+    bubble.className = 'chat-bubble';
+    bubble.textContent = text;
+    row.appendChild(bubble);
+    chatMessages.appendChild(row);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  }
+
+  // Placeholder "AI" — swap this out for a real backend call later.
+  async function sendMessageToAI(userText){
+    await new Promise(resolve => setTimeout(resolve, 700 + Math.random()*500));
+    return `(Demo reply) I heard: "${userText}" — connect a backend to get real AI answers here.`;
+  }
+
+  chatForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const text = chatInput.value.trim();
+    if (!text) return;
+
+    addMessage(text, 'user');
+    chatInput.value = '';
+    chatInput.disabled = true;
+    chatTyping.hidden = false;
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+
+    try{
+      const reply = await sendMessageToAI(text);
+      addMessage(reply, 'bot');
+    } catch(err){
+      addMessage('Something went wrong. Please try again.', 'bot');
+    } finally {
+      chatTyping.hidden = true;
+      chatInput.disabled = false;
+      chatInput.focus();
+    }
+  });
+
+  /* ============================================================
+     Background Slideshow
+     ------------------------------------------------------------
+     Crossfades between the .bg-slide images inside .bg-slideshow.
+     Change SLIDE_INTERVAL_MS to speed up/slow down the cycle.
+     ============================================================ */
+  const SLIDE_INTERVAL_MS = 6000;
+  const slides = document.querySelectorAll('.bg-slide');
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (slides.length > 1 && !prefersReducedMotion) {
+    let currentSlide = 0;
+    setInterval(() => {
+      slides[currentSlide].classList.remove('active');
+      currentSlide = (currentSlide + 1) % slides.length;
+      slides[currentSlide].classList.add('active');
+    }, SLIDE_INTERVAL_MS);
+  }

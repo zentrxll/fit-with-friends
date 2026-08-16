@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FIT WITH FRIEND — Calculate BMI and Calories</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Noto+Serif+Thai:wght@400;600;700;900&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Sarabun:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M20 4L6 11V20C6 28 12 34.5 20 37C28 34.5 34 28 34 20V11L20 4Z" stroke="#5B2333" stroke-width="2"/>
+      <path d="M14 20L18 24L27 15" stroke="#C9A227" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <div class="brand-name">FIT WITH FRIEND</div>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="#calc">BMI</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#tips">Recommendations</a></li>
+    </ul>
+  </nav>
+</header>
+
+<section class="hero">
+  <span class="eyebrow">BKW students project</span>
+  <h1>FIT WITH <span>FRIEND</span></h1>
+  <p class="motto">"A strong body is the temple of a clear mind"</p>
+</section>
+
+<div class="stage" id="calc">
+
+  <div class="tablet chisel">
+    <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+
+    <div class="field">
+      <label for="weight">Weight <span class="unit">KG</span></label>
+      <input class="pill-input" type="number" id="weight" placeholder="e.g., 60" min="1" step="0.1">
+    </div>
+
+    <div class="field">
+      <label for="height">Height <span class="unit">CM</span></label>
+      <input class="pill-input" type="number" id="height" placeholder="e.g., 165" min="1" step="0.1">
+    </div>
+
+    <div class="row-2">
+      <div class="field">
+        <label for="age">Age <span class="unit">YEARS</span></label>
+        <input class="pill-input" type="number" id="age" placeholder="e.g., 28" min="1" step="1">
+      </div>
+      <div class="field">
+        <label for="gender">Gender <span class="unit">GENDER</span></label>
+        <select class="pill-input" id="gender">
+          <option value="female">Female</option>
+          <option value="male">Male</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="activity">Activity Level <span class="unit">ACTIVITY</span></label>
+      <select class="pill-input" id="activity">
+        <option value="1.2">Sedentary (little or no exercise)</option>
+        <option value="1.375">Lightly active (light exercise 1-3 days/week)</option>
+        <option value="1.55" selected>Moderately active (moderate exercise 3-5 days/week)</option>
+        <option value="1.725">Very active (hard exercise 6-7 days/week)</option>
+        <option value="1.9">Extra active (very hard exercise & physical job)</option>
+      </select>
+    </div>
+
+    <button class="btn-calc" id="calcBtn">
+      CALCULATE
+    </button>
+
+    <div class="plaque" id="result">
+      <div class="plaque-top">
+        <div class="bmi-number" id="bmiValue">--</div>
+        <div class="bmi-meta">
+          <div class="disp-en" style="font-size:12px; letter-spacing:0.14em; color:#9c8f7d;">YOUR BMI</div>
+          <div class="bmi-tag" id="bmiTag">—</div>
+        </div>
+      </div>
+
+      <div class="bmi-scale"><div class="marker" id="bmiMarker" style="left:0%"></div></div>
+      <div class="bmi-scale-labels">
+        <span>UNDER</span><span>NORMAL</span><span>OVER</span><span>OBESE</span>
+      </div>
+
+      <div class="cal-grid">
+        <div class="cal-card">
+          <div class="num" id="bmrValue">--</div>
+          <div class="lbl">Basal Metabolic Rate</div>
+        </div>
+        <div class="cal-card">
+          <div class="num" id="tdeeValue">--</div>
+          <div class="lbl">Total Daily Energy Expenditure</div>
+        </div>
+      </div>
+
+      <div class="plaque-note" id="adviceNote">Advice will appear here after calculation</div>
+    </div>
+  </div>
+
+  <div class="gallery">
+    <figure>
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Discobolus_Castel_Porziano_Inv126371.jpg/500px-Discobolus_Castel_Porziano_Inv126371.jpg" alt="Discobolus, classical Greek sculpture of an athlete">
+      <figcaption>DISCOBOLUS · GYMNASIUM</figcaption>
+    </figure>
+    <figure>
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Sanzio_01_Plato_Aristotle.jpg/400px-Sanzio_01_Plato_Aristotle.jpg" alt="Detail of Raphael's School of Athens">
+      <figcaption>SCHOOL OF ATHENS</figcaption>
+    </figure>
+    <figure>
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Palazzo_Colonna_%2846258734635%29.jpg/500px-Palazzo_Colonna_%2846258734635%29.jpg" alt="Classical Roman columned hall">
+      <figcaption>THE FORUM</figcaption>
+    </figure>
+    <p class="quote-strip">"Καλὸς κἀγαθός" — good in body, good in soul</p>
+  </div>
+
+</div>
+
+<div class="divider">
+  <div class="line"></div>
+  <svg viewBox="0 0 100 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M50 5C40 20 30 35 32 55" stroke="#C9A227" stroke-width="2" fill="none"/>
+    <path d="M50 5C60 20 70 35 68 55" stroke="#C9A227" stroke-width="2" fill="none"/>
+    <path d="M35 15c-4 2-6 6-4 10M32 27c-4 1-6 5-5 9M33 40c-4 0-7 4-6 8" stroke="#C9A227" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+    <path d="M65 15c4 2 6 6 4 10M68 27c4 1 6 5 5 9M67 40c4 0 7 4 6 8" stroke="#C9A227" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+  </svg>
+  <div class="line"></div>
+</div>
+
+<section class="info" id="about">
+  <div class="col">
+    <h3 class="disp-en">I. What is BMI?</h3>
+    <p>Body Mass Index (BMI) is a measure of body fat based on height and weight that applies to adult men and women. It is used as a screening tool to identify potential weight-related health risks, but it does not directly measure body fat percentage or account for muscle mass.</p>
+  </div>
+  <div class="col" id="tips">
+    <h3 class="disp-en">II. How are Calories Calculated?</h3>
+    <p>This website uses the Mifflin-St Jeor equation to estimate your Basal Metabolic Rate (BMR), then multiplies it by your activity level to determine your Total Daily Energy Expenditure (TDEE) for maintaining your current weight.</p>
+  </div>
+  <div class="col">
+    <h3 class="disp-en">III. Important Considerations</h3>
+    <p>The results are for educational purposes only and should not be considered medical advice. Individuals with specific health conditions should consult with a healthcare professional before making changes to their diet or exercise routine.</p>
+  </div>
+</section>
+
+<footer>
+  FIT WITH FRIEND — DRAFT PROTOTYPE · MMXXVI
+</footer>
+
+<script src="script.js"></script>
+
+</body>
+</html>

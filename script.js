@@ -28,6 +28,62 @@ const btn = document.getElementById('calcBtn');
     }
   }
 
+  /* ============================================================
+     Food Suggestions
+     ------------------------------------------------------------
+     A small static database of example foods per BMI category,
+     with approximate nutrition values per serving. Figures are
+     rough estimates for illustration — swap in a real nutrition
+     API or your own verified data for production use.
+     ============================================================ */
+  const foodDatabase = {
+    0: [ // Underweight — higher calorie, protein-rich
+      { name:'Peanut Butter Banana Smoothie', desc:'Blended with whole milk and oats for extra calories and protein.', kcal:420, protein:16, carbs:52, sugar:28, fat:16 },
+      { name:'Grilled Chicken & Rice Bowl', desc:'Chicken thigh, jasmine rice, and olive oil for steady energy.', kcal:560, protein:38, carbs:60, sugar:2, fat:18 },
+      { name:'Avocado Toast with Egg', desc:'Whole-grain toast, mashed avocado, and a fried egg.', kcal:390, protein:15, carbs:32, sugar:3, fat:24 }
+    ],
+    1: [ // Normal — balanced, maintenance
+      { name:'Grilled Salmon with Quinoa', desc:'Omega-3 rich salmon with quinoa and steamed greens.', kcal:480, protein:34, carbs:38, sugar:3, fat:20 },
+      { name:'Greek Yogurt with Berries', desc:'Plain yogurt, mixed berries, and a drizzle of honey.', kcal:220, protein:18, carbs:26, sugar:18, fat:5 },
+      { name:'Tofu & Vegetable Stir-fry', desc:'Tofu, mixed vegetables, and brown rice, lightly seasoned.', kcal:410, protein:22, carbs:48, sugar:6, fat:12 }
+    ],
+    2: [ // Overweight — leaner, higher fiber
+      { name:'Grilled Chicken Salad', desc:'Mixed greens, grilled chicken breast, and light vinaigrette.', kcal:320, protein:32, carbs:14, sugar:5, fat:14 },
+      { name:'Steamed Fish with Broccoli', desc:'White fish fillet steamed with broccoli and lemon.', kcal:290, protein:30, carbs:10, sugar:2, fat:10 },
+      { name:'Lentil & Vegetable Soup', desc:'Fiber-rich lentils simmered with tomato and vegetables.', kcal:260, protein:16, carbs:36, sugar:6, fat:4 }
+    ],
+    3: [ // Obese — low calorie, low sugar/fat, high fiber
+      { name:'Steamed Vegetables with Tofu', desc:'Light steamed vegetables with plain tofu, no oil.', kcal:210, protein:14, carbs:20, sugar:4, fat:6 },
+      { name:'Clear Vegetable Soup', desc:'Broth-based soup with mixed vegetables, minimal sodium.', kcal:140, protein:6, carbs:18, sugar:5, fat:2 },
+      { name:'Grilled Fish with Leafy Greens', desc:'Lean white fish with a large side of leafy greens.', kcal:250, protein:28, carbs:8, sugar:2, fat:9 }
+    ]
+  };
+
+  function renderFoodSuggestions(idx){
+    const grid = document.getElementById('foodGrid');
+    if (!grid) return;
+    grid.innerHTML = '';
+    const foods = foodDatabase[idx] || [];
+    foods.forEach(food => {
+      const card = document.createElement('div');
+      card.className = 'food-card';
+      card.innerHTML = `
+        <div class="food-card-top">
+          <span class="food-name">${food.name}</span>
+          <span class="food-kcal">${food.kcal} kcal</span>
+        </div>
+        <p class="food-desc">${food.desc}</p>
+        <div class="food-nutrients">
+          <span class="nutrient-tag">Protein <span class="val">${food.protein}g</span></span>
+          <span class="nutrient-tag">Carbs <span class="val">${food.carbs}g</span></span>
+          <span class="nutrient-tag">Sugar <span class="val">${food.sugar}g</span></span>
+          <span class="nutrient-tag">Fat <span class="val">${food.fat}g</span></span>
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+  }
+
   btn.addEventListener('click', () => {
     const weight = parseFloat(document.getElementById('weight').value);
     const heightCm = parseFloat(document.getElementById('height').value);
@@ -66,97 +122,10 @@ const btn = document.getElementById('calcBtn');
       document.getElementById('adviceNote').textContent = 'Enter your "Age" to calculate a detailed daily calorie recommendation (only the BMI result is shown for now).';
     }
 
+    renderFoodSuggestions(info.idx);
+
     result.classList.add('show');
     result.scrollIntoView({behavior:'smooth', block:'nearest'});
-  });
-
-  /* ============================================================
-     AI Chat Widget
-     ------------------------------------------------------------
-     This is a FRONTEND-ONLY demo. There is no real AI connected
-     yet — sendMessageToAI() below just echoes a canned reply.
-
-     When you have a backend ready, replace the inside of
-     sendMessageToAI() with a fetch() call to YOUR OWN server
-     endpoint (never call the Anthropic/OpenAI API directly from
-     this file — that would expose your secret API key to anyone
-     who views the page source). Example:
-
-     async function sendMessageToAI(userText) {
-       const res = await fetch('/api/chat', {
-         method: 'POST',
-         headers: { 'Content-Type': 'application/json' },
-         body: JSON.stringify({ message: userText })
-       });
-       const data = await res.json();
-       return data.reply;
-     }
-     ============================================================ */
-
-  const chatToggle   = document.getElementById('chatToggle');
-  const chatPanel     = document.getElementById('chatPanel');
-  const chatClose     = document.getElementById('chatClose');
-  const chatForm      = document.getElementById('chatForm');
-  const chatInput     = document.getElementById('chatInput');
-  const chatMessages  = document.getElementById('chatMessages');
-  const chatTyping    = document.getElementById('chatTyping');
-
-  function openChat(){
-    chatPanel.classList.add('open');
-    chatToggle.classList.add('open');
-    chatPanel.setAttribute('aria-hidden', 'false');
-    chatInput.focus();
-  }
-
-  function closeChat(){
-    chatPanel.classList.remove('open');
-    chatToggle.classList.remove('open');
-    chatPanel.setAttribute('aria-hidden', 'true');
-  }
-
-  chatToggle.addEventListener('click', () => {
-    chatPanel.classList.contains('open') ? closeChat() : openChat();
-  });
-  chatClose.addEventListener('click', closeChat);
-
-  function addMessage(text, sender){
-    const row = document.createElement('div');
-    row.className = 'chat-msg ' + sender;
-    const bubble = document.createElement('div');
-    bubble.className = 'chat-bubble';
-    bubble.textContent = text;
-    row.appendChild(bubble);
-    chatMessages.appendChild(row);
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-  }
-
-  // Placeholder "AI" — swap this out for a real backend call later.
-  async function sendMessageToAI(userText){
-    await new Promise(resolve => setTimeout(resolve, 700 + Math.random()*500));
-    return `(Demo reply) I heard: "${userText}" — connect a backend to get real AI answers here.`;
-  }
-
-  chatForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const text = chatInput.value.trim();
-    if (!text) return;
-
-    addMessage(text, 'user');
-    chatInput.value = '';
-    chatInput.disabled = true;
-    chatTyping.hidden = false;
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-
-    try{
-      const reply = await sendMessageToAI(text);
-      addMessage(reply, 'bot');
-    } catch(err){
-      addMessage('Something went wrong. Please try again.', 'bot');
-    } finally {
-      chatTyping.hidden = true;
-      chatInput.disabled = false;
-      chatInput.focus();
-    }
   });
 
   /* ============================================================

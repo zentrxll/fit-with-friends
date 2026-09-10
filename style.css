@@ -43,19 +43,17 @@ html{ scroll-behavior:smooth; }
 
 body{
   margin:0;
-  background:
-    radial-gradient(1100px 560px at 12% -10%, rgba(46,111,94,0.07), transparent 40%),
-    radial-gradient(900px 520px at 108% 8%, rgba(46,111,94,0.05), transparent 22%),
-    radial-gradient(circle at 3px 3px, rgba(24,24,27,0.07) 1px, transparent 0) 0 0/24px 24px,
-    var(--bg);
-  background-attachment:fixed;
+  background: url("img.jpg") center/cover no-repeat, var(--bg);
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+              url('img.jpg') no-repeat center center;
+  background-size: cover;
+  background-position: center;
   color:var(--text);
   font-family:'Cadson Demak', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   -webkit-font-smoothing:antialiased;
   font-size:15px;
   line-height:1.6;
 }
-
 h1, h2, h3, .eyebrow, .disp-en{
   font-family:'Cadson Demak', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
@@ -82,8 +80,8 @@ header{
   font-weight:700; letter-spacing:-0.01em; font-size:15px; color:var(--text);
 }
 nav ul{ list-style:none; display:flex; gap:clamp(14px,2vw,32px); margin:0; padding:0; font-size:14px; flex-wrap:nowrap; }
-nav a{ text-decoration:none; color:var(--text-muted); transition:color .15s ease; white-space:nowrap; }
-nav a:hover{ color:var(--text); }
+nav a{ text-decoration:none; color:var(--text); transition:color .15s ease; white-space:nowrap; }
+nav a:hover{ color:var(--accent); }
 
 @media (max-width:600px){
   header{ padding:16px 16px; }
@@ -117,37 +115,40 @@ nav a:hover{ color:var(--text); }
   letter-spacing:-0.02em;
   margin:0;
   line-height:1.08;
-  color:var(--text);
+  color:white;
 }
-.hero h1 span{ color:var(--accent); }
+.hero h1 span{ 
+  color:var(--accent);
+  -webkit-text-stroke: 0.5px white;
+}
 
 .hero p.sub{
   max-width:520px; margin:20px auto 0; font-size:16px; line-height:1.75; color:var(--text-muted);
   font-weight:400;
 }
 .hero .motto{
-  margin-top:14px; font-size:13.5px; color:var(--text-faint); font-style:normal;
+  margin-top:14px; font-size:13.5px; color:white; font-style:normal;
 }
 
 /* ---------- Layout: calculator + gallery ---------- */
 .stage{
-  display:grid;
-  grid-template-columns: 1.05fr 0.95fr;
-  gap:clamp(20px,3vw,28px);
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+  width:100%;
   max-width:1120px;
   margin:0 auto;
   padding:0 clamp(20px,5vw,40px) clamp(56px,8vw,88px);
-  align-items:start;
 }
-@media (max-width:900px){ .stage{ grid-template-columns:1fr; } }
 
-/* Calculator card */
 .tablet{
-  background:var(--surface);
-  border:1px solid var(--border);
+  width:100%;
+  max-width:560px;
+  background-color:rgb(0, 0, 0, 40%);
   border-radius:var(--radius-lg);
   padding:clamp(28px,4vw,36px);
   box-shadow:var(--shadow-sm);
+  margin:0 auto;
 }
 .tablet h2{
   margin:0 0 4px;
@@ -156,14 +157,14 @@ nav a:hover{ color:var(--text); }
   letter-spacing:-0.01em;
 }
 .tablet .tablet-sub{
-  font-size:14px; color:var(--text-muted); margin-bottom:28px;
+  font-size:14px; color:white; margin-bottom:28px;
 }
 
 .field{ margin-bottom:16px; }
 .field label{
   display:flex; justify-content:space-between; align-items:baseline;
   font-weight:600; font-size:13.5px;
-  margin-bottom:7px; color:var(--text);
+  margin-bottom:7px; color:white;
 }
 .field label .unit{
   font-size:11px; letter-spacing:0.04em; color:var(--text-faint); font-weight:500;
@@ -172,14 +173,14 @@ nav a:hover{ color:var(--text); }
 .pill-input{
   width:100%;
   border:1.5px solid var(--border);
-  background:var(--surface);
+  background-color:rgb(0, 0, 0, 40%);
   border-radius:var(--radius-md);
   padding:13px 16px;
   font-family:'Sarabun', sans-serif;
   font-size:15px;
-  color:var(--text);
   outline:none;
   transition:border-color .15s ease, box-shadow .15s ease;
+  color:white;
 }
 .pill-input:hover{ border-color:#D4D4D8; }
 .pill-input:focus{
@@ -226,7 +227,7 @@ select.pill-input{
 @keyframes reveal{ from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);} }
 
 .plaque-top{ display:flex; align-items:center; gap:16px; margin-bottom:16px; }
-.bmi-number{ font-weight:700; font-size:38px; color:var(--text); line-height:1; letter-spacing:-0.02em; }
+.bmi-number{ font-weight:700; font-size:38px; color:white; line-height:1; letter-spacing:-0.02em; }
 .bmi-meta{ }
 .bmi-tag{
   display:inline-block; margin-top:5px; padding:4px 12px; border-radius:999px;
@@ -247,7 +248,7 @@ select.pill-input{
 }
 .bmi-scale-labels{
   display:flex; justify-content:space-between; font-size:10px; letter-spacing:0.03em;
-  color:var(--text-faint); font-weight:600; text-transform:uppercase;
+  color:white; font-weight:600; text-transform:uppercase;
 }
 
 .cal-grid{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:22px; }
@@ -264,32 +265,37 @@ select.pill-input{
   border-radius:var(--radius-md); border:none;
 }
 
-/* Gallery */
-.gallery{
-  display:grid; grid-template-columns:1.1fr 0.9fr; grid-template-rows:auto auto;
-  gap:12px;
+/* Food suggestions */
+.food-suggest{ margin-top:22px; }
+.food-suggest-head h4{
+  font-size:14px; font-weight:700; margin:0 0 3px; color:white; letter-spacing:-0.005em;
 }
-.gallery figure{
-  margin:0; position:relative; overflow:hidden; border-radius:var(--radius-lg);
-  box-shadow:var(--shadow-sm); border:1px solid var(--border);
+.food-suggest-head p{
+  font-size:12px; color:white; margin:0 0 14px;
 }
-.gallery figure:nth-child(1){ grid-row:1 / 3; }
-.gallery figure img{
-  width:100%; height:100%; object-fit:cover; display:block;
-  filter:none;
-  transition:transform .4s ease;
+.food-grid{
+  display:grid; grid-template-columns:1fr; gap:10px;
 }
-.gallery figure:hover img{ transform:scale(1.03); }
-.gallery figcaption{
-  position:absolute; left:0; right:0; bottom:0; padding:12px 14px;
-  background:linear-gradient(0deg, rgba(0,0,0,0.55), transparent);
-  color:#FFFFFF; font-size:11px; letter-spacing:0.04em; font-weight:600;
+.food-card{
+  background:var(--surface-2); border:1px solid var(--border-soft); border-radius:var(--radius-md);
+  padding:14px 16px;
 }
-
-.quote-strip{
-  grid-column:1 / -1; margin-top:4px;
-  text-align:center; font-size:13px; color:var(--text-faint);
+.food-card-top{
+  display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:4px;
 }
+.food-name{ font-size:13.5px; font-weight:600; color:var(--text); }
+.food-kcal{ font-size:12px; font-weight:700; color:var(--accent); white-space:nowrap; }
+.food-desc{ font-size:12px; color:var(--text-muted); line-height:1.55; margin:0 0 10px; }
+.food-nutrients{
+  display:flex; flex-wrap:wrap; gap:6px;
+}
+.nutrient-tag{
+  font-size:11px; font-weight:600; letter-spacing:0.01em;
+  padding:3px 9px; border-radius:999px;
+  background:var(--surface); border:1px solid var(--border);
+  color:var(--text-muted);
+}
+.nutrient-tag .val{ color:var(--text); }
 
 /* Divider */
 .divider{ display:flex; align-items:center; justify-content:center; gap:0; padding:0 20px 56px; }
